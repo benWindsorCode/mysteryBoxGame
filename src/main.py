@@ -85,8 +85,6 @@ def main():
     simulation_runs = 5000
     # The number of boxes used in the game
     initial_boxes = 4
-    # If using improvedrunsim, this max_wallet_size is the max amount of $ a player can have
-    max_wallet_size = 500
     # The $ amount in the winning box
     prize = 100
     # The 'fair price' of a ticket assuming 0 expected winnings over time
@@ -97,6 +95,8 @@ def main():
     ticket_cost = (1 + spread) * theoretical_cost
     # If true then use the improved simulation accounting for player wallet size
     use_improved_sim = True
+    # If using use_improved_sim = True, this max_wallet_size is the max amount of $ a player can have
+    max_wallet_size = 500
 
     if use_improved_sim:
         result = improvedrunsim(simulation_runs, initial_boxes, prize, ticket_cost, max_wallet_size)

@@ -30,6 +30,7 @@ def theoreticalprice(initial_boxes: int, prize: float) -> float:
     # theoretical price = prize/sum(i*prob(win on attempt i))
     return(prize/total)
 
+# A single simulated run of the box game returning the winnings of the player
 def singlerun(initial_boxes: int, prize: float, ticket_cost: float) -> float:
     print('Running simulation')
     winnings = 0
@@ -49,20 +50,28 @@ def singlerun(initial_boxes: int, prize: float, ticket_cost: float) -> float:
 
     return winnings
 
+# Multiple runs of the box game simulation, returning the avg winnings of the player
 def runsim(simulation_runs: int, initial_boxes: int, prize: float, ticket_cost: float) -> float:
     winnings = [ singlerun(initial_boxes, prize, ticket_cost) for _ in range(simulation_runs)]
 
     return sum(winnings)/len(winnings)
 
 def main():
-    simulation_runs = 2
-    initial_boxes = 4
-    prize = 100
+    # The number of simulated runs of the game over which to avg the winnings
+    simulation_runs = 1
+    # The number of boxes used in the game
+    initial_boxes = 100
+    # The $ amount in the winning box
+    prize = 160000
+    # The 'fair price' of a ticket assuming 0 expected winnings over time
     theoretical_cost = theoreticalprice(initial_boxes, prize)
-    ticket_cost = 40
+    # A profit spread above the theoretical cost of a ticket to play the game. If > 0 seller has advantage, if < 0 player has the advantage
+    spread = 0.0000
+    # The ticket cost accounting for profit spread
+    ticket_cost = (1 + spread) * theoretical_cost
 
     result = runsim(simulation_runs, initial_boxes, prize, ticket_cost)
-    print('Simulation average winnings: {}, over simulation_runs: {}, with theoretical_cost: {}'.format(result, simulation_runs, theoretical_cost))
+    print('Simulation average winnings: {}, over simulation_runs: {}, with theoretical_cost: {}, and ticket_cost: {}'.format(result, simulation_runs, theoretical_cost, ticket_cost))
 
 if __name__ == '__main__':
     main()
